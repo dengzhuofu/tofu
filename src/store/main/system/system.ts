@@ -24,8 +24,8 @@ const useSystemStore = defineStore('system', {
   actions: {
     async postUsersListAction(queryInfo: any) {
       const usersListResult = await postUsersListData(queryInfo)
-      const { totalCount, list } = usersListResult.data
-      this.usersTotalCount = totalCount
+      const { total, list } = usersListResult.data
+      this.usersTotalCount = total
       this.usersList = list
     },
     async deleteUserByIdAction(id: number) {
@@ -56,49 +56,37 @@ const useSystemStore = defineStore('system', {
     /** 针对页面的数据: 增删改查 */
     async postPageListAction(pageName: string, queryInfo: any) {
       const pageListResult = await postPageListData(pageName, queryInfo)
-      const { totalCount, list } = pageListResult.data
+      const { total, list } = pageListResult.data
 
       this.pageList = list
-      this.pageTotalCount = totalCount
+      this.pageTotalCount = total
     },
-    async deletePageByIdAction(pageName: string, id: number) {
+    async deletePageByIdAction(pageName: string, id: string) {
       const deleteResult = await deletePageById(pageName, id)
       console.log(deleteResult)
       // this.code = deleteResult.code
-      this.postPageListAction(pageName, { offset: 0, size: 10 })
-
-      // 获取完整的数据
-      const mainStore = useMainStore()
-      mainStore.fetchDepartmentDataAction()
-      mainStore.fetchMenusDataAction()
-      mainStore.fetchRoleDataAction()
+      this.postPageListAction(pageName, { pageSize: 10, current: 1 })
     },
     async newPageDataAction(pageName: string, pageInfo: any) {
       const newResult = await newPageData(pageName, pageInfo)
 
-      console.log(newResult, pageInfo)
-      this.sucCode = newResult.code
-      console.log('111', this.sucCode)
+      // console.log(newResult, pageInfo)
+      // this.sucCode = newResult.code
+      // console.log('111', this.sucCode)
 
-      this.postPageListAction(pageName, { offset: 0, size: 10 })
-
-      // 获取完整的数据
-      const mainStore = useMainStore()
-      mainStore.fetchDepartmentDataAction()
-      mainStore.fetchMenusDataAction()
-      mainStore.fetchRoleDataAction()
+      this.postPageListAction(pageName, { pageSize: 10, current: 1 })
     },
-    async editPageDataAction(pageName: string, id: number, pageInfo: any) {
-      const editResult = await editPageData(pageName, id, pageInfo)
+    async editPageDataAction(pageName: string, pageInfo: any) {
+      const editResult = await editPageData(pageName, pageInfo)
       console.log(editResult)
-      this.sucCode = editResult.code
-      this.postPageListAction(pageName, { offset: 0, size: 10 })
+      // this.sucCode = editResult.code
+      this.postPageListAction(pageName, { pageSize: 10, current: 1 })
 
-      // 获取完整的数据
-      const mainStore = useMainStore()
-      mainStore.fetchDepartmentDataAction()
-      mainStore.fetchMenusDataAction()
-      mainStore.fetchRoleDataAction()
+      // // 获取完整的数据
+      // const mainStore = useMainStore()
+      // mainStore.fetchDepartmentDataAction()
+      // mainStore.fetchMenusDataAction()
+      // mainStore.fetchRoleDataAction()
     }
   }
 })

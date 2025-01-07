@@ -136,12 +136,16 @@ function handleConfirmClick() {
   if (props.otherInfo) {
     infoData = { ...infoData, ...props.otherInfo }
   }
+  if (editData.value && editData.value.id) {
+    infoData.id = editData.value.id
+  }
+  console.log('---infoData', infoData)
 
   if (!isNewRef.value && editData.value) {
     // 编辑用户的数据
     systemStore.editPageDataAction(
       props.modalConfig.pageName,
-      editData.value.id,
+
       infoData
     )
     if (systemStore.sucCode == 1) {

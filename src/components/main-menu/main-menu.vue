@@ -58,7 +58,7 @@
 import { computed, ref } from 'vue'
 import useLoginStore from '@/store/login/login'
 import { useRoute, useRouter } from 'vue-router'
-// import { mapPathToMenu } from '@/utils/map-menus'
+import { mapPathToMenu } from '@/utils/map-menus'
 import { adminUserMenu, companyMenu } from '@/router/main/localRoutes'
 import { localCache } from '@/utils/cache'
 
@@ -84,8 +84,16 @@ function handleItemClick(item: any) {
 }
 
 // 3.ElMenu的默认菜单
-// const route = useRoute()
-const defaultActive = ref<string>('101')
+const route = useRoute()
+const defaultActive = computed(() => {
+  if (route.path === '/main') {
+    return '101'
+  }
+  const pathMenu = mapPathToMenu(route.path, userMenus)
+  console.log('pathMenu:', pathMenu)
+
+  return pathMenu.id.toString()
+})
 </script>
 <style lang="less" scoped>
 .main-menu {

@@ -29,8 +29,24 @@ export function mapMenusToRoutes(userMenus: any[]) {
   // 2.根据菜单去匹配正确的路由
   const routes: RouteRecordRaw[] = []
   for (const menu of userMenus) {
-    for (const submenu of menu.children) {
-      const route = localRoutes.find((item) => item.path === submenu.url)
+    if (menu.children) {
+      for (const submenu of menu.children) {
+        const route = localRoutes.find((item) => item.path === submenu.url)
+        if (route) {
+          // *给每个一级路由重定向到其第一个子菜单
+          // 1.给route的顶层菜单增加重定向功能(但是只需要添加一次即可)
+          if (!routes.find((item) => item.path === menu.url)) {
+            routes.push({ path: menu.url, redirect: route.path })
+          }
+
+          // 2.将二级菜单对应的路径
+          routes.push(route)
+        }
+        // 记录第一个被匹配到的菜单
+        if (!firstMenu && route) firstMenu = submenu
+      }
+    } else {
+      const route = localRoutes.find((item) => item.path === menu.url)
       if (route) {
         // *给每个一级路由重定向到其第一个子菜单
         // 1.给route的顶层菜单增加重定向功能(但是只需要添加一次即可)
@@ -38,11 +54,11 @@ export function mapMenusToRoutes(userMenus: any[]) {
           routes.push({ path: menu.url, redirect: route.path })
         }
 
-        // 2.将二级菜单对应的路径
+        // 2.将一级菜单对应的路径
         routes.push(route)
       }
       // 记录第一个被匹配到的菜单
-      if (!firstMenu && route) firstMenu = submenu
+      if (!firstMenu && route) firstMenu = menu
     }
   }
   return routes
@@ -53,15 +69,21 @@ export function mapMenusToRoutes(userMenus: any[]) {
  * @param path 需要匹配的路径
  * @param userMenus 所有的菜单
  */
-// export function mapPathToMenu(path: string, userMenus: any[]) {
-//   for (const menu of userMenus) {
-//     for (const submenu of menu.children) {
-//       if (submenu.url === path) {
-//         return submenu
-//       }
-//     }
-//   }
-// }
+export function mapPathToMenu(path: string, userMenus: any[]) {
+  for (const menu of userMenus) {
+    if (menu.url === path) {
+      return menu
+    }
+
+    if (menu.children) {
+      for (const submenu of menu.children) {
+        if (submenu.url === path) {
+          return submenu
+        }
+      }
+    }
+  }
+}
 
 interface IBreadcrumbs {
   name: string

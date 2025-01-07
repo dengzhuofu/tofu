@@ -95,19 +95,40 @@ export const adminUserMenu = [
     id: 3,
     icon: 'el-icon-menu',
     name: '公司管理',
-    url: '/main/company'
+    children: [
+      {
+        id: 301,
+        icon: 'el-icon-menu',
+        name: '公司列表',
+        url: '/main/company'
+      }
+    ]
   },
   {
     id: 4,
     icon: 'el-icon-menu',
     name: '行业管理',
-    url: '/main/industry'
+    children: [
+      {
+        id: 401,
+        icon: 'el-icon-menu',
+        name: '行业列表',
+        url: '/main/industry'
+      }
+    ]
   },
   {
     id: 5,
     icon: 'el-icon-menu',
     name: '职位管理',
-    url: '/main/position'
+    children: [
+      {
+        id: 501,
+        icon: 'el-icon-menu',
+        name: '职位列表',
+        url: '/main/position'
+      }
+    ]
   },
   {
     id: 6,
@@ -141,13 +162,13 @@ export const adminUserMenu = [
     name: '系统管理',
     children: [
       {
-        id: 901,
+        id: 701,
         icon: 'el-icon-menu',
         name: '广告管理',
         url: '/main/system/advertisement'
       },
       {
-        id: 902,
+        id: 702,
         icon: 'el-icon-menu',
         name: '公告管理',
         url: '/main/system/notice'
@@ -175,13 +196,27 @@ export const companyMenu = [
     id: 2,
     icon: 'el-icon-menu',
     name: '公司管理',
-    url: '/main/company'
+    children: [
+      {
+        id: 201,
+        icon: 'el-icon-menu',
+        name: '公司列表',
+        url: '/main/company'
+      }
+    ]
   },
   {
     id: 3,
     icon: 'el-icon-menu',
     name: '职位管理',
-    url: '/main/position'
+    children: [
+      {
+        id: 301,
+        icon: 'el-icon-menu',
+        name: '职位列表',
+        url: '/main/position'
+      }
+    ]
   },
   {
     id: 4,

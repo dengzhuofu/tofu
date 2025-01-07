@@ -14,9 +14,9 @@ export function accountLoginRequest(account: IAccount) {
 
 export function getUserInfoById(id: number) {
   return hyRequest.get({
-    url: `/users/${id}`,
+    url: `/user/${id}`,
     headers: {
-      Authorization: 'Bearer ' + localCache.getCache(LOGIN_TOKEN)
+      token: localCache.getCache(LOGIN_TOKEN)
     }
   })
 }
@@ -25,7 +25,7 @@ export function getUserMenusByRoleId(id: number) {
   return hyRequest.get({
     url: `/role/${id}/menu`,
     headers: {
-      Authorization: 'Bearer ' + localCache.getCache(LOGIN_TOKEN)
+      token: localCache.getCache(LOGIN_TOKEN)
     }
   })
 }

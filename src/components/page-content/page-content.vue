@@ -2,7 +2,7 @@
   <div class="content">
     <div class="header">
       <h3 class="title">{{ contentConfig?.header?.title ?? '数据列表' }}</h3>
-      <el-button v-if="isCreate" type="primary" @click="handleNewUserClick">
+      <el-button type="primary" @click="handleNewUserClick">
         {{ contentConfig?.header?.btnTitle ?? '新建数据' }}
       </el-button>
     </div>
@@ -21,11 +21,25 @@
               </template>
             </el-table-column>
           </template>
+          <template v-else-if="item.type === 'status'">
+            <el-table-column align="center" v-bind="item">
+              <template #default="scope">
+                <el-button
+                  size="small"
+                  :type="
+                    scope.row.enableStatus === '启用' ? 'primary' : 'danger'
+                  "
+                  plain
+                >
+                  {{ scope.row.enableStatus === '启用' ? '启用' : '禁用' }}
+                </el-button>
+              </template>
+            </el-table-column>
+          </template>
           <template v-else-if="item.type === 'handler'">
             <el-table-column align="center" v-bind="item">
               <template #default="scope">
                 <el-button
-                  v-if="isUpdate"
                   size="small"
                   icon="Edit"
                   type="primary"
@@ -35,7 +49,6 @@
                   编辑
                 </el-button>
                 <el-button
-                  v-if="isDelete"
                   size="small"
                   icon="Delete"
                   type="danger"
@@ -68,7 +81,7 @@
     <div class="pagination">
       <el-pagination
         v-model:current-page="currentPage"
-        v-model:page-size="pageSize"
+        v-model:page-size="size"
         :page-sizes="[10, 20, 30]"
         layout="prev, pager, next,total, sizes, jumper"
         :total="pageTotalCount"
@@ -80,11 +93,12 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import useSystemStore from '@/store/main/system/system'
 import { formatUTC } from '@/utils/format'
 import usePermissions from '@/hooks/usePermissions'
+import { ElMessageBox } from 'element-plus'
 
 interface IProps {
   contentConfig: {
@@ -112,7 +126,7 @@ const isQuery = usePermissions(`${props.contentConfig.pageName}:query`)
 // 1.发起action，请求usersList的数据
 const systemStore = useSystemStore()
 const currentPage = ref(1)
-const pageSize = ref(10)
+const size = ref(10)
 
 // store.$onction() 来监测 action 和它们的结果。传递给它的回调函数会在 action 本身之前执行。 after 表示在 promise 解决之后，
 // 允许你在 action 解决后执行一个一个回调函数。同样地，onErroI 允许你在 action 抛出错误或 reject 时执行一个回调函数。
@@ -127,7 +141,10 @@ systemStore.$onAction(({ name, after }) => {
     }
   })
 })
-fetchPageListData()
+console.log('---------------', props.contentConfig.pageName)
+onMounted(() => {
+  fetchPageListData()
+})
 
 // 2.获取usersList数据,进行展示
 const { pageList, pageTotalCount } = storeToRefs(systemStore)
@@ -142,12 +159,13 @@ function handleCurrentChange() {
 
 // 4.定义函数, 用于发送网络请求
 function fetchPageListData(formData: any = {}) {
-  if (!isQuery) return
+  // if (!isQuery) return
 
   // 1.获取offset/size
-  const size = pageSize.value
-  const offset = (currentPage.value - 1) * size
-  const pageInfo = { size, offset }
+  const pageSize = size.value
+  const current = currentPage.value
+  const pageInfo = { pageSize, current }
+  console.log('------sss---------', props.contentConfig.pageName)
 
   // 2.发起网络请求
   const queryInfo = { ...pageInfo, ...formData }
@@ -155,8 +173,26 @@ function fetchPageListData(formData: any = {}) {
 }
 
 // 5.删除/新建/编辑的操作
-function handleDeleteBtnClick(id: number) {
-  systemStore.deletePageByIdAction(props.contentConfig.pageName, id)
+function handleDeleteBtnClick(id: string) {
+  if (id === '88888888') {
+    ElMessageBox.alert('不能删除管理员账户', '提示', {
+      confirmButtonText: '确定',
+      type: 'warning'
+    })
+    return
+  }
+
+  ElMessageBox.confirm('确定要删除该项吗?', '提示', {
+    confirmButtonText: '确定',
+    cancelButtonText: '取消',
+    type: 'warning'
+  })
+    .then(() => {
+      systemStore.deletePageByIdAction(props.contentConfig.pageName, id)
+    })
+    .catch(() => {
+      ElMessage.info('已取消删除操作')
+    })
 }
 function handleNewUserClick() {
   emit('newClick')
@@ -171,7 +207,7 @@ defineExpose({ fetchPageListData })
 
 <style lang="less" scoped>
 .content {
-  margin-top: 40px;
+  margin-top: 20px;
   padding: 20px;
   background-color: #fff;
   border-radius: 20px;
@@ -191,7 +227,7 @@ defineExpose({ fetchPageListData })
 
 .table {
   :deep(.el-table__cell) {
-    padding: 12px 0;
+    // padding: 12px 0;
   }
 
   .el-button {
@@ -204,6 +240,6 @@ defineExpose({ fetchPageListData })
   display: flex;
   // justify-content: flex-end;
   margin-top: 25px;
-  justify-content: center;
+  justify-content: flex-end;
 }
 </style>

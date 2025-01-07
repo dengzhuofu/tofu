@@ -4,11 +4,14 @@ import { LOGIN_TOKEN } from '@/global/constants'
 /** 用户的网络请求 */
 export function postUsersListData(queryInfo: any) {
   return hyRequest.post({
-    url: '/users/list',
+    url: '/user/getUserList',
     data: queryInfo,
     headers: {
-      Authorization: 'Bearer ' + localCache.getCache(LOGIN_TOKEN)
+      token: localCache.getCache(LOGIN_TOKEN)
     }
+    // headers: {
+    //   Authorization: 'Bearer ' + localCache.getCache(LOGIN_TOKEN)
+    // }
   })
 }
 
@@ -16,7 +19,7 @@ export function deleteUserById(id: number) {
   return hyRequest.delete({
     url: `/users/${id}`,
     headers: {
-      Authorization: 'Bearer ' + localCache.getCache(LOGIN_TOKEN)
+      token: localCache.getCache(LOGIN_TOKEN)
     }
   })
 }
@@ -26,7 +29,7 @@ export function newUserData(userInfo: any) {
     url: '/users',
     data: userInfo,
     headers: {
-      Authorization: 'Bearer ' + localCache.getCache(LOGIN_TOKEN)
+      token: localCache.getCache(LOGIN_TOKEN)
     }
   })
 }
@@ -36,47 +39,55 @@ export function editUserData(id: number, userInfo: any) {
     url: `/users/${id}`,
     data: userInfo,
     headers: {
-      Authorization: 'Bearer ' + localCache.getCache(LOGIN_TOKEN)
+      token: localCache.getCache(LOGIN_TOKEN)
     }
   })
 }
-
 /** 针对页面的网络请求: 增删改查 */
 export function postPageListData(pageName: string, queryInfo: any) {
+  const capitalizedPageName =
+    pageName.charAt(0).toUpperCase() + pageName.slice(1)
   return hyRequest.post({
-    url: `/${pageName}/list`,
+    url: `/${pageName}/get${capitalizedPageName}List`,
     data: queryInfo,
     headers: {
-      Authorization: 'Bearer ' + localCache.getCache(LOGIN_TOKEN)
+      token: localCache.getCache(LOGIN_TOKEN)
     }
   })
 }
-
-export function deletePageById(pageName: string, id: number) {
+export function deletePageById(pageName: string, id: string) {
+  const capitalizedPageName =
+    pageName.charAt(0).toUpperCase() + pageName.slice(1)
   return hyRequest.delete({
-    url: `/${pageName}/${id}`,
+    url: `/${pageName}/delete${capitalizedPageName}/${id}`,
     headers: {
-      Authorization: 'Bearer ' + localCache.getCache(LOGIN_TOKEN)
+      token: localCache.getCache(LOGIN_TOKEN)
     }
   })
 }
 
 export function newPageData(pageName: string, pageInfo: any) {
+  const capitalizedPageName =
+    pageName.charAt(0).toUpperCase() + pageName.slice(1)
   return hyRequest.post({
-    url: `/${pageName}`,
+    url: `/${pageName}/add${capitalizedPageName}`,
     data: pageInfo,
     headers: {
-      Authorization: 'Bearer ' + localCache.getCache(LOGIN_TOKEN)
+      token: localCache.getCache(LOGIN_TOKEN)
     }
   })
 }
 
-export function editPageData(pageName: string, id: number, pageInfo: any) {
-  return hyRequest.patch({
-    url: `/${pageName}/${id}`,
+export function editPageData(pageName: string, pageInfo: any) {
+  const capitalizedPageName =
+    pageName.charAt(0).toUpperCase() + pageName.slice(1)
+  console.log('--------------', capitalizedPageName)
+
+  return hyRequest.post({
+    url: `/${pageName}/update${capitalizedPageName}`,
     data: pageInfo,
     headers: {
-      Authorization: 'Bearer ' + localCache.getCache(LOGIN_TOKEN)
+      token: localCache.getCache(LOGIN_TOKEN)
     }
   })
 }

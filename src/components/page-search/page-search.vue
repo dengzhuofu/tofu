@@ -1,5 +1,5 @@
 <template>
-  <div class="search" v-if="isQuery">
+  <div class="search">
     <!-- 1.输入搜索关键字的表单 -->
     <el-form
       :model="searchForm"
@@ -9,7 +9,7 @@
     >
       <el-row :gutter="20">
         <template v-for="item in searchConfig.formItems" :key="item.prop">
-          <el-col :span="8">
+          <el-col :span="6">
             <el-form-item :label="item.label" :prop="item.prop">
               <template v-if="item.type === 'input'">
                 <el-input
@@ -104,26 +104,25 @@ function handleQueryClick() {
   text-align: center;
 }
 .search {
+  position: relative;
   background-color: #fff;
-  border-radius: 20px;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2), 0 7px 6px rgba(0, 0, 0, 0.2);
-  padding: 20px;
+  border-radius: 20px 20px;
+  box-shadow: -10px 10px 20px rgba(0, 0, 0, 0.2),
+    10px 10px 20px rgba(0, 0, 0, 0.2);
+  padding: 15px;
 
-  .el-form-item {
-    padding: 20px 30px;
-    margin-bottom: 0;
-  }
-  .el-input-border-radius {
-    border-radius: 30px;
-  }
+  // .el-form-item {
+  //   padding: 20px 30px;
+  //   margin-bottom: 0;
+  // }
+  // .el-input-border-radius {
+  //   border-radius: 30px;
+  // }
 
   .btns {
-    text-align: right;
-    padding: 0 50px 10px 0;
-
-    .el-button {
-      height: 36px;
-    }
+    position: absolute;
+    right: 20px;
+    bottom: 20px;
   }
 }
 </style>

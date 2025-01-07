@@ -1,7 +1,7 @@
 import type { IModalConfig } from '@/components/page-modal/type'
 
 const modalConfig: IModalConfig = {
-  pageName: 'users',
+  pageName: 'user',
   header: {
     newTitle: '新建用户',
     editTitle: '编辑用户'
@@ -9,16 +9,11 @@ const modalConfig: IModalConfig = {
   formItems: [
     {
       type: 'input',
-      prop: 'name',
+      prop: 'username',
       label: '用户名',
-      placeholder: '请输入查询的用户名'
+      placeholder: '请输入用户名'
     },
-    {
-      type: 'input',
-      prop: 'realname',
-      label: '真实姓名',
-      placeholder: '请输入查询的真实姓名'
-    },
+
     {
       type: 'input',
       prop: 'password',
@@ -27,23 +22,30 @@ const modalConfig: IModalConfig = {
     },
     {
       type: 'input',
-      prop: 'cellphone',
+      prop: 'mobile',
       label: '手机号码',
-      placeholder: '请输入查询的手机号码'
+      placeholder: '请输入手机号码'
     },
     {
       type: 'select',
-      label: '选择角色',
-      prop: 'roleId',
+      prop: 'role',
+      label: '角色',
       placeholder: '请选择角色',
-      options: []
+      options: [
+        { label: '管理员', value: 2 },
+        { label: '招聘者', value: 1 },
+        { label: '求职者', value: 0 }
+      ]
     },
     {
       type: 'select',
-      label: '选择部门',
-      prop: 'departmentId',
-      placeholder: '请选择部门',
-      options: []
+      prop: 'enableStatus',
+      label: '状态',
+      placeholder: '请选择状态',
+      options: [
+        { label: '启用', value: 1 },
+        { label: '禁用', value: 0 }
+      ]
     }
   ]
 }

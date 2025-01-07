@@ -12,6 +12,8 @@ function usePageModal(newCallback?: CallbackFnType, editCallback?: EditFnType) {
   function handleEditClick(itemData: any) {
     // 1.让modal显示出来 用nextTick目的是弹窗只是弹出来 但是dialogvisible的值还没有被改变 因此没法设置属性
     modalRef.value?.setModalVisible(false, itemData)
+    console.log('itemData', itemData)
+
     // 2.编辑的回调
     if (editCallback) editCallback(itemData)
   }

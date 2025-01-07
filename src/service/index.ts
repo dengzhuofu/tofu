@@ -12,7 +12,8 @@ const hyRequest = new HYRequest({
   //     const token = localCache.getCache(LOGIN_TOKEN)
   //     if (config.headers && token) {
   //       // 类型缩小
-  //       config.headers.Authorization = 'Bearer ' + token
+  //       config.headers.token = token
+  //       console.log('请求成功拦截', config)
   //     }
   //     return config
   //   }

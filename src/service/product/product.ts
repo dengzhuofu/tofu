@@ -7,7 +7,7 @@ export function getProductInfo(id: string) {
   return hyRequest.get({
     url: `/goods/${id}`,
     headers: {
-      Authorization: 'Bearer ' + localCache.getCache(LOGIN_TOKEN)
+      token: localCache.getCache(LOGIN_TOKEN)
     }
   })
 }
@@ -16,7 +16,7 @@ export function getProductList() {
   return hyRequest.post({
     url: `/goods/list`,
     headers: {
-      Authorization: 'Bearer ' + localCache.getCache(LOGIN_TOKEN)
+      token: localCache.getCache(LOGIN_TOKEN)
     }
   })
 }

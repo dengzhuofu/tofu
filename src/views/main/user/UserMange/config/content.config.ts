@@ -1,5 +1,5 @@
 const contentConfig = {
-  pageName: 'users',
+  pageName: 'user',
   header: {
     title: '用户列表',
     btnTitle: '新建用户'
@@ -9,17 +9,25 @@ const contentConfig = {
     { type: 'selection', label: '选择', width: '80px' },
     { type: 'index', label: '序号', width: '80px' },
 
-    { type: 'normal', label: '用户名', prop: 'name', width: '120px' },
-    { type: 'normal', label: '真实姓名', prop: 'realname', width: '120px' },
-    { type: 'normal', label: '密码', prop: 'password', width: '120px' },
-    { type: 'normal', label: '手机号', prop: 'cellphone', width: '120px' },
+    {
+      type: 'custom',
+      label: '头像',
+      prop: 'avatar',
+      width: '220px',
+      slotName: 'image'
+    },
 
-    { type: 'status', label: '状态', prop: 'enable', width: '100px' },
+    { type: 'normal', label: '用户名', prop: 'username', width: '220px' },
+    // { type: 'normal', label: '真实姓名', prop: 'realname', width: '120px' },
+    // { type: 'normal', label: '密码', prop: 'password', width: '120px' },
+    { type: 'normal', label: '手机号', prop: 'mobile', width: '220px' },
+    { type: 'normal', label: '角色', prop: 'role', width: '180px' },
 
-    { type: 'timer', label: '创建时间', prop: 'createAt' },
-    { type: 'timer', label: '更新时间', prop: 'updateAt' },
+    { type: 'status', label: '状态', prop: 'enableStatus', width: '150px' },
 
-    { type: 'handler', label: '操作', width: '120px' }
+    { type: 'timer', label: '创建时间', prop: 'registerDate' },
+
+    { type: 'handler', label: '操作', width: '250px' }
   ]
 }
 

@@ -11,6 +11,16 @@
       @new-click="handleNewClick"
       @edit-click="handleEditClick"
     >
+      <template #image="scope">
+        <div class="img-container">
+          <el-image
+            :src="scope.row[scope.prop]"
+            style="width: 50px"
+            :id="scope.row[scope.prop]"
+          />
+          <!-- <img :src="scope.row[scope.prop]" alt="" class="full-width" /> -->
+        </div>
+      </template>
     </page-content>
     <page-modal :modal-config="modalConfigRef" ref="modalRef" />
   </div>

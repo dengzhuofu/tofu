@@ -6,7 +6,7 @@ export function getEntireRoles() {
   return hyRequest.post({
     url: '/role/list',
     headers: {
-      Authorization: 'Bearer ' + localCache.getCache(LOGIN_TOKEN)
+      token: localCache.getCache(LOGIN_TOKEN)
     }
   })
 }
@@ -15,7 +15,7 @@ export function getEntireDepartments() {
   return hyRequest.post({
     url: '/department/list',
     headers: {
-      Authorization: 'Bearer ' + localCache.getCache(LOGIN_TOKEN)
+      token: localCache.getCache(LOGIN_TOKEN)
     }
   })
 }
@@ -24,7 +24,7 @@ export function getEntireMenus() {
   return hyRequest.post({
     url: '/menu/list',
     headers: {
-      Authorization: 'Bearer ' + localCache.getCache(LOGIN_TOKEN)
+      token: localCache.getCache(LOGIN_TOKEN)
     }
   })
 }

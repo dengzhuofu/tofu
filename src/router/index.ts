@@ -69,9 +69,9 @@ router.beforeEach((to) => {
   }
 
   // 如果是进入到main
-  // if (to.path === '/main') {
-  //   return firstMenu?.url
-  // }
+  if (to.path === '/main') {
+    return firstMenu?.url
+  }
 })
 
 export default router
